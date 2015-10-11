@@ -2,7 +2,7 @@
   "name": "cv3-dev",
   "version": "1.0.0",
   "description": "A development environment for CV3 templates",
-  "main": "lib/init.js",
+  "main": "./bin/setup.js",
   "scripts": {
     "clean": "./bin/clean.js",
     "setup": "./bin/setup.js",
