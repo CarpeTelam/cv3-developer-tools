@@ -1,0 +1,37 @@
+{
+  "name": "cv3-dev",
+  "version": "1.0.0",
+  "description": "A development environment for CV3 templates",
+  "main": "lib/init.js",
+  "scripts": {
+    "clean": "./bin/clean.js",
+    "init": "./bin/init.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "unzip": "./bin/unzip-archives.js",
+    "upload": "./bin/upload-templates.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://thisishuey@github.com/CarpeTelam/CV3-Dev.git"
+  },
+  "keywords": [
+    "CV3",
+    "Templates"
+  ],
+  "author": "Jeff \"Huey\" Huelsbeck <huey@carpetelam.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CarpeTelam/CV3-Dev/issues"
+  },
+  "homepage": "https://github.com/CarpeTelam/CV3-Dev#readme",
+  "engines": {
+    "node": "*"
+  },
+  "devDependencies": {
+    "del": "^2.0.2",
+    "glob": "^5.0.15",
+    "moment": "^2.10.6",
+    "request": "^2.64.0",
+    "unzip": "^0.1.11"
+  }
+}
