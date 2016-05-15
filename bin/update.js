@@ -12,6 +12,9 @@ const timestamp = moment().unix();
 const credentials = require('../cv3-credentials');
 let store = require('../store');
 
+const baseURI = 'https://store.commercev3.com';
+const getDataURI = baseURI + '/GetData';
+
 let jar = request.jar();
 
 let filePath = '';
@@ -25,7 +28,7 @@ const loginForm = {
 };
 
 const postFormOptions = {
-  uri: 'https://store.commercev3.com/',
+  uri: baseURI,
   method: 'POST',
   jar: jar,
   headers: {
@@ -34,19 +37,19 @@ const postFormOptions = {
 };
 
 const getTemplateOptions = {
-  uri: 'https://store.commercev3.com/GetData/template_edit/' + store.id + '/_top.tpl',
+  uri: getDataURI + '/template_edit/' + store.id + '/_top.tpl',
   method: 'GET',
   jar: jar
 };
 
 const getJavascriptOptions = {
-  uri: 'https://store.commercev3.com/GetData/template_js_edit/' + store.id + '/all',
+  uri: getDataURI + '/template_js_edit/' + store.id + '/all',
   method: 'GET',
   jar: jar
 };
 
 const getStylesheetOptions = {
-  uri: 'https://store.commercev3.com/GetData/styles_edit/' + store.id + '/styles',
+  uri: getDataURI + '/styles_edit/' + store.id + '/styles',
   method: 'GET',
   jar: jar
 };
