@@ -203,8 +203,8 @@ const main = () => {
   writeFile('./store.json', store);
 }
 
-if (credentials.username == '' || credentials.password == '') {
-  console.log('You must add your CV3 credentials to ./cv3credentials.json to be able to update your files.')
+if (credentials.username == '' || credentials.password == '' || !store.id) {
+  console.log('You must update cv3credentials.json & store.json with the appropriate information, see ./README.md for more information.');
 } else {
   main();
 }

@@ -23,10 +23,14 @@ CV3 Developer Tools require you have a CV3 Merchant Login push your files to the
 
 You can clone the repository to your local file system, then run the `npm install` & `npm run setup` commands to get everything in place. This will add 2 files to the root directory, `cv3credentials.json` & `store.json`.
 
+### cv3credentials.json
 You can add your login credentials to the `cv3credentials.json` file to allow the scripts to push your updates to the CV3 system. The `store.json` file is used to keep track of which store you are making changes to and when the last update occurred for batch processing of updates.
 
-### NOTE:
+#### NOTE:
 `cv3credentials.json` has been added to the `.gitignore` for this repo, it is recommended that you don't add this file to your project or upload it anywhere public. It is also recommended that you create an alternate "developer" user on your account that only has access to the `Design` & `Template Library` sections of the CV3 Admin and that you can easily turn off if needed.
+
+### store.json
+You will need to add your Store ID to the `store.json` file. This can be found in the URL of the CV3 Admin Interface, usually in a format similar to https://store.commercev3.com/ShowView/links/XXXX where `XXXX` is the ID of your store. Just change the `"id": false` to `"id": XXXX` where `XXXX` is the same number from the CV3 Admin interface url.
 
 ## Usage
 
