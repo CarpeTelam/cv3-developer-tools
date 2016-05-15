@@ -12,7 +12,7 @@ A directory structure and a set of node scripts to allow for easy development an
 ## Features
 
 * Allows you to export your templates from the server and work on them locally
-* Work local then use the npm commands above to have your changes updated in CV3
+* Use the code editor you prefer and then use the commands above to have your updates pushed up to CV3
 * Allows you to store your templates in the SCM of your choice, so you can keep track of changes as you go and collaborate with team members via version control
 
 ## Requirements
