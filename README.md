@@ -29,7 +29,7 @@ You can add your login credentials to the `cv3credentials.json` file to allow th
 > **NOTE:** `cv3credentials.json` has been added to the `.gitignore` for this repo, it is recommended that you don't add this file to your project or upload it anywhere public. It is also recommended that you create an alternate "developer" user on your account that only has access to the `Design` & `Template Library` sections of the CV3 Admin and that you can easily turn off if needed.
 
 ### store.json
-You will need to add your Store ID to the `store.json` file. This can be found in the URL of the CV3 Admin Interface, usually in a format similar to https://store.commercev3.com/ShowView/links/XXXX where `XXXX` is the ID of your store. Just change the `"id": false` to `"id": XXXX` where `XXXX` is the same number from the CV3 Admin interface url.
+You will need to add your Store ID to the `store.json` file. This can be found in the URL of the CV3 Admin Interface, usually in a format similar to https://store.commercev3.com/ShowView/links/XXXX where `XXXX` is the ID of your store. In `store.json`, just change the `"id": false` to `"id": XXXX` where `XXXX` is the same number from the CV3 Admin interface url.
 
 ## Usage
 
