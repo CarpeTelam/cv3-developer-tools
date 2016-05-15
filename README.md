@@ -17,11 +17,11 @@ A directory structure and a set of node scripts to allow for easy development an
 
 ## Requirements
 
-CV3 Developer Tools require node and npm to be installed on your machine. You can install node via homebrew on a Mac or download it from https://nodejs.org/.
+CV3 Developer Tools require you have a CV3 Merchant Login push your files to the CV3 Admin interface. On the development  side, you will need node and npm to be installed on your machine. You can install node via homebrew on a Mac or download it from https://nodejs.org/.
 
 ## Installation
 
-You can clone the repository to your local file system, then run the `npm install` & `npm run setup` commands to get everything setup. This will add 2 files to the root directory `cv3credentials.json` & `store.json`.
+You can clone the repository to your local file system, then run the `npm install` & `npm run setup` commands to get everything in place. This will add 2 files to the root directory, `cv3credentials.json` & `store.json`.
 
 You can add your login credentials to the `cv3credentials.json` file to allow the scripts to push your updates to the CV3 system. The `store.json` file is used to keep track of which store you are making changes to and when the last update occurred for batch processing of updates.
 
