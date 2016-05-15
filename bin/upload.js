@@ -180,7 +180,7 @@ const templateFiles = getModifiedFiles(templatePath);
 let files = [];
 
 if (!codeFiles || !templateFiles) {
-  console.log('Download a store backup to ./process/store and then run `npm run unzip`');
+  console.log('Download a store backup to ./extract/store/ and then run `npm run unzip`');
 } else {
   files = codeFiles.concat(templateFiles)
 }
