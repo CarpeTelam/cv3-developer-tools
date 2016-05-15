@@ -179,16 +179,12 @@ const templateFiles = getModifiedFiles(templatePath);
 let files = [];
 
 if (!filesCode || !templateFiles) {
-  console.log('Download a store backup to ./extract/store/ and then run `npm run unzip`');
+  console.log('Download a store backup to ./extract/store/ and then run `npm run extract`');
 } else {
   files = filesCode.concat(templateFiles)
 }
 
-if (output) {
-  console.log('Files to update:')
-  console.log(files);
-}
-
+console.log('Files to update: (count: ' + files.length + ') ' + JSON.stringify(files, null, 2));
 files.forEach(filePath => update(filePath));
 
 store.lastUpdate = parseInt(timestamp);
