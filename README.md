@@ -55,6 +55,7 @@ If you use Atom (https://atom.io) you can install the `Atom Build package` (http
 
 ## TODO
 
+* Add ability to trigger store backup and then download backups for extract
 * Add functionality to rename & move Bootstrap files into the appropriate location in the store directory
 * Provide more robust update notification (e.g. file updated, success or failure)
 * Build in Sass functionality for Bootstrap 4 & custom developer Sass
