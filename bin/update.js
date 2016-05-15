@@ -175,28 +175,36 @@ const getModifiedFiles = (path) => {
   }
 };
 
-const filesCode = getModifiedFiles(filesCodePath);
-const templateFiles = getModifiedFiles(templatePath);
+const main = () => {
+  const filesCode = getModifiedFiles(filesCodePath);
+  const templateFiles = getModifiedFiles(templatePath);
 
-let files = [];
+  let files = [];
 
-if (!filesCode || !templateFiles) {
-  console.log('Download a store backup to ./extract/store/ and then run `npm run extract`');
-} else {
-  files = filesCode.concat(templateFiles)
+  if (!filesCode || !templateFiles) {
+    console.log('Download a store backup to ./extract/store/ and then run `npm run extract`');
+  } else {
+    files = filesCode.concat(templateFiles)
+  }
+
+  console.log('Files to update: (count: ' + files.length + ') ' + JSON.stringify(files, null, 2));
+  files.forEach(filePath => update(filePath));
+
+  store.lastUpdate = parseInt(timestamp);
+
+  const writeFile = (path, json) => {
+    const content = JSON.stringify(json, null, 2);
+    const callback = (error) => error ? console.log(error) : console.log(path + ' updated.');
+    fs.stat(path, (err, stats) => {
+      fs.writeFile(path, content, callback);
+    });
+  };
+
+  writeFile('./store.json', store);
 }
 
-console.log('Files to update: (count: ' + files.length + ') ' + JSON.stringify(files, null, 2));
-files.forEach(filePath => update(filePath));
-
-store.lastUpdate = parseInt(timestamp);
-
-const writeFile = (path, json) => {
-  const content = JSON.stringify(json, null, 2);
-  const callback = (error) => error ? console.log(error) : console.log(path + ' updated.');
-  fs.stat(path, (err, stats) => {
-    fs.writeFile(path, content, callback);
-  });
-};
-
-writeFile('./store.json', store);
+if (credentials.username == '' || credentials.password == '') {
+  console.log('You must add your CV3 credentials to ./cv3credentials.json to be able to update your files.')
+} else {
+  main();
+}
