@@ -8,7 +8,7 @@
     "setup": "./bin/setup.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "extract": "./bin/extract.js",
-    "upload": "./bin/upload.js"
+    "update": "./bin/update.js"
   },
   "repository": {
     "type": "git",

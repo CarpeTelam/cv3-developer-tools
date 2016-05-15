@@ -34,24 +34,24 @@ const postFormOptions = {
 };
 
 const getTemplateOptions = {
-  uri: 'https://store.commercev3.com/GetData/template_edit/' + store.id + '/node_test.tpl',
+  uri: 'https://store.commercev3.com/GetData/template_edit/' + store.id + '/_top.tpl',
   method: 'GET',
   jar: jar
 };
 
 const getJavascriptOptions = {
-  uri: 'https://store.commercev3.com/GetData/template_js_edit/' + store.id + '/node_test',
+  uri: 'https://store.commercev3.com/GetData/template_js_edit/' + store.id + '/all',
   method: 'GET',
   jar: jar
 };
 
 const getStylesheetOptions = {
-  uri: 'https://store.commercev3.com/GetData/styles_edit/' + store.id + '/node_test',
+  uri: 'https://store.commercev3.com/GetData/styles_edit/' + store.id + '/styles',
   method: 'GET',
   jar: jar
 };
 
-var loginCallback = function (error, response, body) {
+const loginCallback = function (error, response, body) {
   switch (file.ext) {
     case '.tpl':
       request(getTemplateOptions, getTemplateCallback);
@@ -68,10 +68,10 @@ var loginCallback = function (error, response, body) {
    }
 };
 
-var getTemplateCallback = function (error, response, body) {
-  var json = JSON.parse(body);
-  fs.readFile(filePath, 'utf8', function(error, data) {
-    var form = {
+const getTemplateCallback = function (error, response, body) {
+  const json = JSON.parse(body);
+  fs.readFile(filePath, 'utf8', function (error, data) {
+    const form = {
       action: 'EditTemplate',
       locked: json.locked && json.locked.locked_status ? json.locked.locked_status : '',
       stylesheet_locked: json.stylesheet_locked && json.stylesheet_locked.locked_status ? json.stylesheet_locked.locked_status : '',
@@ -92,18 +92,17 @@ var getTemplateCallback = function (error, response, body) {
   });
 };
 
-var setTemplateCallback = function (error, response, body) {
-  console.log(body);
-  // should put some feedback for the user here? should test for error on img_prefix, and possibly other errors like `
+const setTemplateCallback = function (error, response, body) {
+  // needs error feedback: should test for error on img_prefix, and possibly other errors like `
   if (output) {
     console.log('Template Updated');
   }
 };
 
-var getJavascriptCallback = function (error, response, body) {
-  var json = JSON.parse(body);
+const getJavascriptCallback = function (error, response, body) {
+  const json = JSON.parse(body);
   fs.readFile(filePath, 'utf8', function (error, data) {
-    var form = {
+    const form = {
       action: 'EditJS',
       file: file.name,
       filename: file.base,
@@ -118,17 +117,17 @@ var getJavascriptCallback = function (error, response, body) {
   });
 };
 
-var setJavascriptCallback = function (error, response, body) {
-  // should put some feedback for the user here?
+const setJavascriptCallback = function (error, response, body) {
+  // needs error feedback
   if (output) {
     console.log('Javascript Updated');
   }
 };
 
-var getStylesheetCallback = function (error, response, body) {
-  var json = JSON.parse(body);
-  fs.readFile(filePath, 'utf8', function(error, data) {
-    var form = {
+const getStylesheetCallback = function (error, response, body) {
+  const json = JSON.parse(body);
+  fs.readFile(filePath, 'utf8', function (error, data) {
+    const form = {
       action: 'EditStyles',
       file: file.name,
       locked: json.locked && json.locked.locked_status ? json.locked.locked_status : '',
@@ -141,20 +140,20 @@ var getStylesheetCallback = function (error, response, body) {
   });
 };
 
-var setStylesheetCallback = function (error, response, body) {
-  // should put some feedback for the user here?
+const setStylesheetCallback = function (error, response, body) {
+  // needs error feedback
   if (output) {
     console.log('Stylesheet Updated');
   }
 };
 
-var update = function (updatePath) {
+const update = function (updatePath) {
   filePath = updatePath;
   file = path.parse(filePath);
   request(postFormOptions, loginCallback).form(loginForm);
 }
 
-const codePath = './store/files_code/';
+const filesCodePath = './store/files_code/';
 const templatePath = './store/templates/';
 
 let modifiedFiles = [];
@@ -174,18 +173,23 @@ const getModifiedFiles = (path) => {
   }
 };
 
-const codeFiles = getModifiedFiles(codePath);
+const filesCode = getModifiedFiles(filesCodePath);
 const templateFiles = getModifiedFiles(templatePath);
 
 let files = [];
 
-if (!codeFiles || !templateFiles) {
+if (!filesCode || !templateFiles) {
   console.log('Download a store backup to ./extract/store/ and then run `npm run unzip`');
 } else {
-  files = codeFiles.concat(templateFiles)
+  files = filesCode.concat(templateFiles)
 }
 
-console.log(files);
+if (output) {
+  console.log('Files to update:')
+  console.log(files);
+}
+
+files.forEach(filePath => update(filePath));
 
 store.lastUpdate = parseInt(timestamp);
 
