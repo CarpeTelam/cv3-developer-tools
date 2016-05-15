@@ -45,7 +45,7 @@ This will clean any leftover files in the `./extract/` folder that are no longer
 
 ## Atom Usage
 
-If you use Atom (https://atom.io) you can install the `Atom Build package` (https://atom.io/packages/build) and the `npm/apm task runner package` (https://atom.io/packages/build-npm-apm) and you will be able to set Atom Build to run `npm: update` from the list of targets. Once setup correctly you can make changes to your files and when you are ready to push them up to the server you can hit `Cmd Alt B / Ctrl Alt B / F9` to have all modified files updated on the server.
+If you use Atom (https://atom.io) you can install the `Atom Build package` (https://atom.io/packages/build) and the `npm/apm task runner package` (https://atom.io/packages/build-npm-apm) and you will be able to set Atom Build to run `npm: update` from the list of targets. Once setup correctly you can make changes to your files and when you are ready to push them up to the server you can hit `Cmd Alt B / Ctrl Alt B / F9` to have all modified files updated on the server or even have them build on save!
 
 ## TODO
 
