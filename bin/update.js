@@ -52,6 +52,8 @@ const getStylesheetOptions = {
 };
 
 const loginCallback = function (error, response, body) {
+  // Right now we only handle templates, javascript, and stylesheets. We could
+  // possibly add image and file upload functionality in the future.
   switch (file.ext) {
     case '.tpl':
       request(getTemplateOptions, getTemplateCallback);
