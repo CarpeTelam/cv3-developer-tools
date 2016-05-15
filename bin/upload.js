@@ -93,6 +93,7 @@ var getTemplateCallback = function (error, response, body) {
 };
 
 var setTemplateCallback = function (error, response, body) {
+  console.log(body);
   // should put some feedback for the user here? should test for error on img_prefix, and possibly other errors like `
   if (output) {
     console.log('Template Updated');

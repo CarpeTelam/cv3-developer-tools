@@ -7,8 +7,8 @@
     "clean": "./bin/clean.js",
     "setup": "./bin/setup.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "unzip": "./bin/unzip-archives.js",
-    "upload": "./bin/upload-templates.js"
+    "extract": "./bin/extract.js",
+    "upload": "./bin/upload.js"
   },
   "repository": {
     "type": "git",
@@ -28,10 +28,10 @@
     "node": "*"
   },
   "devDependencies": {
-    "del": "^2.0.2",
-    "glob": "^5.0.15",
-    "moment": "^2.10.6",
-    "request": "^2.64.0",
-    "unzip": "^0.1.11"
+    "del": "^2.2.0",
+    "extract-zip": "^1.5.0",
+    "glob": "^7.0.3",
+    "moment": "^2.13.0",
+    "request": "^2.72.0"
   }
 }

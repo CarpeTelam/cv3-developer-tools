@@ -5,13 +5,13 @@
 const fs = require('fs');
 const glob = require('glob');
 const moment = require('moment');
-const unzip = require('unzip');
+const extract = require('extract-zip');
 
 const timestamp = moment().unix();
 
 let store = require('../store');
 
-const processZip = (src, dest) => {
+const process = (src, dest) => {
   const getModified = (name) => {
     return {
       name,
@@ -19,18 +19,20 @@ const processZip = (src, dest) => {
     };
   };
   const sortModified = (a, b) => a.time - b.time;
-  const unzipFile = (file) => {
-    fs.createReadStream(file.name).pipe(unzip.Extract({ path: dest }));
-    file.unzipped = moment().unix();
+  const extractFiles = (file) => {
+    extract(file.name, { dir: dest }, function (error) {
+      error ? console.log(error) : console.log(file.name + " extracted");
+    });
+    file.extracted = moment().unix();
     return file;
   };
   glob(src + '*.zip', null, (error, files) => {
-    files = files.map(getModified).sort(sortModified).map(unzipFile);
+    files = files.map(getModified).sort(sortModified).map(extractFiles);
   });
-}
+};
 
-processZip('./process/store/', './store/');
-processZip('./process/bootstrap/', './process/bootstrap/bootstrap');
+process('./extract/store/', './store/');
+process('./extract/bootstrap/', './extract/bootstrap/bootstrap');
 
 store.lastUpdate = parseInt(timestamp);
 

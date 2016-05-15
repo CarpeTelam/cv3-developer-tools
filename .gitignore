@@ -4,10 +4,10 @@ npm-debug.log
 
 cv3-credentials.json
 
-/process/bootstrap/*
-!/process/bootstrap
-!/process/bootstrap/README.md
+/extract/bootstrap/*
+!/extract/bootstrap
+!/extract/bootstrap/README.md
 
-/process/store/*
-!/process/store
-!/process/store/README.md
+/extract/store/*
+!/extract/store
+!/extract/store/README.md
