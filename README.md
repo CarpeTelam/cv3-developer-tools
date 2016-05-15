@@ -51,7 +51,7 @@ This will clean any leftover files in the `./extract/` folder that are no longer
 
 If you use Atom (https://atom.io) you can install the `Atom Build package` (https://atom.io/packages/build) and the `npm/apm task runner package` (https://atom.io/packages/build-npm-apm) and you will be able to set Atom Build to run `npm: update` from the list of targets. Once setup correctly you can make changes to your files and when you are ready to push them up to the server you can hit `Cmd Alt B / Ctrl Alt B / F9` to have all modified files updated on the server or even have them build on save!
 
-> **Additional Packages:** This toolset also makes use of the `EditorConfig package` (https://atom.io/packages/editorconfig) to configure Atom to match the CV3 coding style throughout the templates. I also recommend the `language-smarty package` (https://atom.io/packages/language-smarty) as it makes it easier to edit the smarty template files.
+> **Additional Packages:** This toolset also makes use of the `EditorConfig package` (https://atom.io/packages/editorconfig) to configure Atom to match the CV3 coding style throughout the templates. I also recommend the `language-smarty package` (https://atom.io/packages/language-smarty) as it makes it easier to edit the smarty template files and the `open-this package` https://atom.io/packages/open-this which will open the file under the cursor which is helpful for moving around between included templates.
 
 ## TODO
 
