@@ -2,13 +2,13 @@
   "name": "cv3-dev",
   "version": "1.0.0",
   "description": "A development environment for CV3 templates",
-  "main": "./bin/setup.js",
+  "main": "node bin/setup.js",
   "scripts": {
-    "clean": "./bin/clean.js",
-    "setup": "./bin/setup.js",
+    "clean": "node bin/clean.js",
+    "setup": "node bin/setup.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "extract": "./bin/extract.js",
-    "update": "./bin/update.js"
+    "extract": "node bin/extract.js",
+    "update": "node bin/update.js"
   },
   "repository": {
     "type": "git",
