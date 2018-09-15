@@ -1,47 +1,61 @@
-#!/usr/bin/env node
-
-'use strict';
-
 const fs = require('fs');
 const glob = require('glob');
 const moment = require('moment');
 const extract = require('extract-zip');
 
-const timestamp = moment().unix();
+const basePath = process.cwd();
 
-let store = require('../store');
+function getModified (name) {
+  const time = moment(fs.statSync(name).mtime).unix();
+  return { name, time };
+}
 
-const process = (src, dest) => {
-  const getModified = (name) => {
-    return {
-      name,
-      time: moment(fs.statSync(name).mtime).unix()
-    };
-  };
-  const sortModified = (a, b) => a.time - b.time;
-  const extractFiles = (file) => {
-    extract(file.name, { dir: dest }, function (error) {
-      error ? console.log(error) : console.log(file.name + " extracted");
+function sortModified (a, b) {
+  return a.time - b.time;
+}
+
+function processFiles (src, dest) {  
+  glob(`${src}/*.zip`, null, (error, files) => {
+    files = files.map(getModified).sort(sortModified).map((file) => {
+      extract(
+        file.name,
+        { dir: dest },
+        (error) => error ? console.log(error) : console.log(`${file.name.replace(basePath, '.')} extracted`)
+      );
+      const extracted = moment().unix();
+      return { ...file, extracted };
     });
-    file.extracted = moment().unix();
-    return file;
-  };
-  glob(src + '*.zip', null, (error, files) => {
-    files = files.map(getModified).sort(sortModified).map(extractFiles);
   });
-};
+}
 
-process('./extract/store/', './store/');
-process('./extract/bootstrap/', './extract/bootstrap/bootstrap');
-
-store.lastUpdate = parseInt(timestamp);
-
-const writeFile = (path, json) => {
+function writeFile (path, json) {
   const content = JSON.stringify(json, null, 2);
-  const callback = (error) => error ? console.log(error) : console.log(path + ' updated.');
+  const callback = (error) => error ? console.log(error) : console.log(`${path.replace(basePath, '.')} updated.`);
   fs.stat(path, (err, stats) => {
     fs.writeFile(path, content, callback);
   });
-};
+}
 
-writeFile('./store.json', store);
+(() => {
+
+  const timestamp = parseInt(moment().unix());
+
+  let store;
+  
+  try {
+    store = require(`${basePath}/store.json`);
+  } catch (exception) {
+    if(exception.code === 'MODULE_NOT_FOUND') {
+      console.log('Please run \'npm run setup\' to create a store.json file.');
+      process.exit();
+    } else {
+      console.error(exception);
+    }
+  }
+  
+  processFiles(`${basePath}/extract/store`, `${basePath}/store`);
+  processFiles(`${basePath}/extract/bootstrap`, `${basePath}/extract/bootstrap/bootstrap`);
+  
+  writeFile(`${basePath}/store.json`, { ...store, timestamp });
+
+})();

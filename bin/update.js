@@ -1,13 +1,9 @@
-#! /usr/bin/env node
-
-'use strict';
-
 const fs = require('fs');
 const moment = require('moment');
 const path = require('path');
 const request = require('request');
 
-const timestamp = moment().unix();
+const timestamp = parseInt(moment().unix());
 
 const credentials = require('../cv3-credentials');
 let store = require('../store');
@@ -166,7 +162,7 @@ let modifiedFiles = [];
 const getModifiedFiles = (path) => {
   const filter = (filePath) => {
     let timestamp = moment(fs.statSync(filePath).mtime).unix();
-    return timestamp > store.lastUpdate;
+    return timestamp > store.timestamp;
   };
   try {
     const stats = fs.statSync(path);
@@ -193,8 +189,6 @@ const main = () => {
   console.log('Files to update: (count: ' + files.length + ') ' + JSON.stringify(files, null, 2));
   files.forEach(filePath => update(filePath));
 
-  store.lastUpdate = parseInt(timestamp);
-
   const writeFile = (path, json) => {
     const content = JSON.stringify(json, null, 2);
     const callback = (error) => error ? console.log(error) : console.log(path + ' updated.');
@@ -203,10 +197,10 @@ const main = () => {
     });
   };
 
-  writeFile('./store.json', store);
+  writeFile('./store.json', { ...store, timestamp });
 }
 
-if (credentials.username == '' || credentials.password == '' || !store.id) {
+if (credentials.username == '' || credentials.password == '' || store.id == '') {
   console.log('You must update cv3credentials.json & store.json with the appropriate information, see ./README.md for more information.');
 } else {
   main();
