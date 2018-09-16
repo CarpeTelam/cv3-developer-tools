@@ -7,7 +7,9 @@ A directory structure and a set of node scripts to allow for easy development an
 2. `npm run setup` Runs the setup to get the appropriate files in place
 3. `npm run extract` Extracts any zip files in the appropriate `./extract/` folder
 4. `npm run update` Updates any templates changed since the last time run
-5. `npm run clean` Removes any files no longer needed
+5. `npm run open` Opens the store's staging URL in Chrome
+6. `npm run dev` Watches for file changes and run update to push changes to CV3 automatically
+7. `npm run clean` Removes any files no longer needed
 
 ## Features
 
@@ -46,6 +48,12 @@ This is where the real magic happens. You can edit .tpl, .js, and .css files in 
 
 ### npm run clean
 This will clean any leftover files in the `./extract/` folder that are no longer needed.
+
+### npm run open
+This will open the store's staging URL (via store.json) in Google Chrome. This is a helper script for `npm run dev`
+
+### npm run dev
+This will watch for changes to files located in `/store/` and when it detects changes it will automatically run `npm run update`. It will also launch the staging site in Google Chrome. In theory a dev could run `npm run dev` then jump over to their IDE and make changes then jump over to Google Chrome and refresh to see the changes.
 
 ## Atom Usage
 

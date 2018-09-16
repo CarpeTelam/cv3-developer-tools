@@ -3,7 +3,7 @@ const glob = require('glob');
 const moment = require('moment');
 const extract = require('extract-zip');
 
-const basePath = process.cwd();
+const baseDir = process.cwd();
 
 function getModified (name) {
   const time = moment(fs.statSync(name).mtime).unix();
@@ -20,7 +20,7 @@ function processFiles (src, dest) {
       extract(
         file.name,
         { dir: dest },
-        (error) => error ? console.log(error) : console.log(`${file.name.replace(basePath, '.')} extracted`)
+        (error) => error ? console.log(error) : console.log(`${file.name.replace(baseDir, '.')} extracted`)
       );
       const extracted = moment().unix();
       return { ...file, extracted };
@@ -30,7 +30,7 @@ function processFiles (src, dest) {
 
 function writeFile (path, json) {
   const content = JSON.stringify(json, null, 2);
-  const callback = (error) => error ? console.log(error) : console.log(`${path.replace(basePath, '.')} updated.`);
+  const callback = (error) => error ? console.log(error) : console.log(`${path.replace(baseDir, '.')} updated`);
   fs.stat(path, (err, stats) => {
     fs.writeFile(path, content, callback);
   });
@@ -39,23 +39,17 @@ function writeFile (path, json) {
 (() => {
 
   const timestamp = parseInt(moment().unix());
-
-  let store;
+  const storePath = `${baseDir}/store.json`;
+  const store = fs.existsSync(storePath) ? require(storePath) : false;
   
-  try {
-    store = require(`${basePath}/store.json`);
-  } catch (exception) {
-    if(exception.code === 'MODULE_NOT_FOUND') {
-      console.log('Please run \'npm run setup\' to create a store.json file.');
-      process.exit();
-    } else {
-      console.error(exception);
-    }
+  if (!store) {
+    console.log('Please run `npm run setup` to create the proper config files.');
+    process.exit();
   }
+
+  processFiles(`${baseDir}/extract/store`, `${baseDir}/store`);
+  processFiles(`${baseDir}/extract/bootstrap`, `${baseDir}/extract/bootstrap/bootstrap`);
   
-  processFiles(`${basePath}/extract/store`, `${basePath}/store`);
-  processFiles(`${basePath}/extract/bootstrap`, `${basePath}/extract/bootstrap/bootstrap`);
-  
-  writeFile(`${basePath}/store.json`, { ...store, timestamp });
+  writeFile(`${baseDir}/store.json`, { ...store, timestamp });
 
 })();

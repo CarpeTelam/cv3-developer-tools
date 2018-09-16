@@ -1,6 +1,7 @@
 const del = require('del');
 
 (async () => {
+
 	const paths = [
 		'./extract/store/*.zip',
 		'./extract/bootstrap/bootstrap/',
@@ -8,10 +9,12 @@ const del = require('del');
 		'**/.DS_Store'
 	];
 	const response = await del(paths);
+
 	if (response.length > 0) {
-		console.log('Deleted the following files:');
-		console.log(response.map((path) => `${path.replace(process.cwd(), '.')}`).join('\n'));
+		const deletedFiles = response.map((path) => `${path.replace(process.cwd(), '.')}`);
+		console.log(`Deleted the following files: ${JSON.stringify(deletedFiles, null, 2)}`);
 	} else {
-		console.log('Nothing to delete.');
+		console.log('Nothing to delete');
 	}
+
 })();

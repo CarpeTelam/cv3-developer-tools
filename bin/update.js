@@ -3,13 +3,24 @@ const moment = require('moment');
 const path = require('path');
 const request = require('request');
 
+const baseDir = process.cwd();
 const timestamp = parseInt(moment().unix());
 
-const credentials = require('../cv3-credentials');
-let store = require('../store');
+const credentialsPath = `${baseDir}/cv3-credentials.json`;
+const credentials = fs.existsSync(credentialsPath) ? require(credentialsPath) : false;
+const storePath = `${baseDir}/store.json`;
+const store = fs.existsSync(storePath) ? require(storePath) : false;
+
+if (!credentials || !store || credentials.username === '' || credentials.password === '' || store.id === '') {
+  console.log('Please run `npm run setup` to create the proper config files.');
+  process.exit(1);
+}
+
+const filesCodePath = `${baseDir}/store/files_code/`;
+const templatePath = `${baseDir}/store/templates/`;
 
 const baseURI = 'https://store.commercev3.com';
-const getDataURI = baseURI + '/GetData';
+const getDataURI = `${baseURI}/GetData`;
 
 let jar = request.jar();
 
@@ -33,24 +44,25 @@ const postFormOptions = {
 };
 
 const getTemplateOptions = {
-  uri: getDataURI + '/template_edit/' + store.id + '/_top.tpl',
+  uri: `${getDataURI}/template_edit/${store.id}/_top.tpl`,
   method: 'GET',
   jar: jar
 };
 
 const getJavascriptOptions = {
-  uri: getDataURI + '/template_js_edit/' + store.id + '/all',
+  uri: `${getDataURI}/template_js_edit/${store.id}/all`,
   method: 'GET',
   jar: jar
 };
 
 const getStylesheetOptions = {
-  uri: getDataURI + '/styles_edit/' + store.id + '/styles',
+  uri: `${getDataURI}/styles_edit/${store.id}/styles`,
   method: 'GET',
   jar: jar
 };
 
-const loginCallback = function (error, response, body) {
+function loginCallback (error, response, body) {
+  output && console.log('loginCallback started');
   // Right now we only handle templates, javascript, and stylesheets. We could
   // possibly add image and file upload functionality in the future.
   switch (file.ext) {
@@ -67,9 +79,11 @@ const loginCallback = function (error, response, body) {
       console.log(filePath);
       console.log('Invalid file type');
    }
-};
+   output && console.log('loginCallback finished');
+}
 
-const getTemplateCallback = function (error, response, body) {
+function getTemplateCallback (error, response, body) {
+  output && console.log('getTemplateCallback started');
   const json = JSON.parse(body);
   fs.readFile(filePath, 'utf8', function (error, data) {
     const form = {
@@ -91,16 +105,16 @@ const getTemplateCallback = function (error, response, body) {
     };
     request(postFormOptions, setTemplateCallback).form(form);
   });
-};
+  output && console.log('getTemplateCallback finished');
+}
 
-const setTemplateCallback = function (error, response, body) {
+function setTemplateCallback (error, response, body) {
   // needs error feedback: should test for error on img_prefix, and possibly other errors like `
-  if (output) {
-    console.log('Template Updated');
-  }
-};
+  output && console.log('Template Updated');
+}
 
-const getJavascriptCallback = function (error, response, body) {
+function getJavascriptCallback (error, response, body) {
+  output && console.log('getJavascriptCallback started');
   const json = JSON.parse(body);
   fs.readFile(filePath, 'utf8', function (error, data) {
     const form = {
@@ -116,16 +130,16 @@ const getJavascriptCallback = function (error, response, body) {
     };
     request(postFormOptions, setJavascriptCallback).form(form);
   });
-};
+  output && console.log('getJavascriptCallback finished');
+}
 
-const setJavascriptCallback = function (error, response, body) {
+function setJavascriptCallback (error, response, body) {
   // needs error feedback
-  if (output) {
-    console.log('Javascript Updated');
-  }
-};
+  output && console.log('Javascript Updated');
+}
 
-const getStylesheetCallback = function (error, response, body) {
+function getStylesheetCallback (error, response, body) {
+  output && console.log('getStylesheetCallback started');
   const json = JSON.parse(body);
   fs.readFile(filePath, 'utf8', function (error, data) {
     const form = {
@@ -139,69 +153,50 @@ const getStylesheetCallback = function (error, response, body) {
     };
     request(postFormOptions, setStylesheetCallback).form(form);
   });
-};
+  output && console.log('getStylesheetCallback finished');
+}
 
-const setStylesheetCallback = function (error, response, body) {
+function setStylesheetCallback (error, response, body) {
   // needs error feedback
-  if (output) {
-    console.log('Stylesheet Updated');
-  }
-};
+  output && console.log('Stylesheet Updated');
+}
 
-const update = function (updatePath) {
+function update (updatePath) {
+  output && console.log('update started');
   filePath = updatePath;
   file = path.parse(filePath);
   request(postFormOptions, loginCallback).form(loginForm);
+  output && console.log('updated finished');
 }
 
-const filesCodePath = './store/files_code/';
-const templatePath = './store/templates/';
-
-let modifiedFiles = [];
-
-const getModifiedFiles = (path) => {
-  const filter = (filePath) => {
-    let timestamp = moment(fs.statSync(filePath).mtime).unix();
-    return timestamp > store.timestamp;
-  };
+function getModifiedFiles (path) {
+  output && console.log('getModifiedFiles started');
+  const filter = (filePath) => store.timestamp < moment(fs.statSync(filePath).mtime).unix();
   try {
     const stats = fs.statSync(path);
     if (stats.isDirectory()) {
       return fs.readdirSync(path).map((filename) => path + filename).filter(filter);
     }
   } catch (exception) {
-    return false;
+    return [];
   }
-};
+  output && console.log('getModifiedFiles finished');
+}
 
-const main = () => {
-  const filesCode = getModifiedFiles(filesCodePath);
-  const templateFiles = getModifiedFiles(templatePath);
+function writeFile (path, json) {
+  const content = JSON.stringify(json, null, 2);
+  const callback = (error) => error ? console.log(error) : console.log(`${path} updated`);
+  fs.stat(path, (err, stats) => fs.writeFile(path, content, callback));
+}
 
-  let files = [];
+(() => {
 
-  if (!filesCode || !templateFiles) {
-    console.log('Download a store backup to ./extract/store/ and then run `npm run extract`');
-  } else {
-    files = filesCode.concat(templateFiles)
-  }
+  const files = [...getModifiedFiles(filesCodePath), ...getModifiedFiles(templatePath)];
 
-  console.log('Files to update: (count: ' + files.length + ') ' + JSON.stringify(files, null, 2));
+  const fileCountText = `${files.length} File${files.length > 1 ? 's' : ''}`;
+  console.log(`${fileCountText} to update: ${JSON.stringify(files, null, 2)}`);
   files.forEach(filePath => update(filePath));
 
-  const writeFile = (path, json) => {
-    const content = JSON.stringify(json, null, 2);
-    const callback = (error) => error ? console.log(error) : console.log(path + ' updated.');
-    fs.stat(path, (err, stats) => {
-      fs.writeFile(path, content, callback);
-    });
-  };
+  writeFile(`${baseDir}/store.json`, { ...store, timestamp });
 
-  writeFile('./store.json', { ...store, timestamp });
-}
-
-if (credentials.username == '' || credentials.password == '' || store.id == '') {
-  console.log('You must update cv3credentials.json & store.json with the appropriate information, see ./README.md for more information.');
-} else {
-  main();
-}
+})();
