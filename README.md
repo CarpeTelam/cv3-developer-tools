@@ -61,6 +61,10 @@ If you use Atom (https://atom.io) you can install the `Atom Build package` (http
 
 > **Additional Packages:** This toolset also makes use of the `EditorConfig package` (https://atom.io/packages/editorconfig) to configure Atom to match the CV3 coding style throughout the templates. I also recommend the `language-smarty package` (https://atom.io/packages/language-smarty) as it makes it easier to edit the smarty template files and the `open-this package` https://atom.io/packages/open-this which will open the file under the cursor which is helpful for moving around between included templates.
 
+## Visual Studio Code Usage
+
+With the `npm run dev` refinement, you can pretty much run the command and then forget about the process of uploading the files. I've recently switched over from Atom to Visual Studio Code and, like Atom, I've found that there are a few packages that have been helpful for working with CV3 templates. With the current setup, you can make use of ESLint with the `ESLint package` (https://marketplace.visualstudio.com/items?itemName=dbaeumer.vscode-eslint). Like the additional packages for Atom, Code also has a `Smarty package` (https://marketplace.visualstudio.com/items?itemName=imperez.smarty) to help with syntax highlighting and formatting of the smarty templates and an `Open file package` (https://marketplace.visualstudio.com/items?itemName=Fr43nk.seito-openfile) that will also help with jumping around between the include files.
+
 ## TODO
 
 * Add ability to trigger store backup and then download backups for extract
