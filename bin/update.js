@@ -195,8 +195,10 @@ function writeFile (path, json) {
 
   const fileCountText = `${files.length} File${files.length > 1 ? 's' : ''}`;
   console.log(`${fileCountText} to update: ${JSON.stringify(files, null, 2)}`);
-  files.forEach(filePath => update(filePath));
-
-  writeFile(`${baseDir}/store.json`, { ...store, timestamp });
+  console.log(process.argv);
+  if (process.argv.indexOf('--dry-run') < 0) {
+    files.forEach(filePath => update(filePath));
+    writeFile(`${baseDir}/store.json`, { ...store, timestamp });
+  }
 
 })();
