@@ -1,0 +1,13 @@
+.DS_Store
+node_modules
+npm-debug.log
+
+cv3-credentials.json
+
+/extract/bootstrap/*
+!/extract/bootstrap
+!/extract/bootstrap/README.md
+
+/extract/store/*
+!/extract/store
+!/extract/store/README.md

@@ -1,0 +1,43 @@
+{
+  "name": "cv3-developer-tools",
+  "version": "1.1.0",
+  "description": "A development environment for CV3 templates",
+  "main": "node bin/setup.js",
+  "scripts": {
+    "clean": "node bin/clean.js",
+    "dev": "npm run open && watch 'npm run update' store/",
+    "extract": "node bin/extract.js",
+    "open": "node bin/open.js",
+    "setup": "node bin/setup.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "update": "node bin/update.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:CarpeTelam/cv3-developer-tools.git"
+  },
+  "keywords": [
+    "CV3",
+    "Templates"
+  ],
+  "author": "Jeff \"Huey\" Huelsbeck <huey@carpetelam.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/CarpeTelam/cv3-developer-tools/issues"
+  },
+  "homepage": "https://github.com/CarpeTelam/cv3-developer-tools#cv3-developer-tools",
+  "engines": {
+    "node": "*"
+  },
+  "devDependencies": {
+    "del": "^2.2.0",
+    "eslint": "^5.6.0",
+    "extract-zip": "^1.5.0",
+    "glob": "^7.0.3",
+    "moment": "^2.13.0",
+    "prompts": "^1.1.0",
+    "react-dev-utils": "^5.0.2",
+    "request": "^2.72.0",
+    "watch": "^1.0.2"
+  }
+}
